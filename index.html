@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arena 2v2 — Ligue & Classement</title>
+    <meta name="description" content="Gestion de tournoi 2v2 en ligue : classement par points, suivi des sets, combats et meilleur combattant.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Animated background -->
+    <div class="app-bg">
+        <div class="bg-orb bg-orb-1"></div>
+        <div class="bg-orb bg-orb-2"></div>
+        <div class="bg-orb bg-orb-3"></div>
+    </div>
+
+    <div class="app-container">
+        <!-- Header -->
+        <header id="app-header">
+            <div class="header-glow"></div>
+            <div class="header-content">
+                <div class="logo-area">
+                    <div class="logo-icon">⚔️</div>
+                    <div>
+                        <h1>Arena 2v2</h1>
+                        <p class="subtitle">Ligue — Classement & Combats</p>
+                    </div>
+                </div>
+                <div class="header-stats" style="align-items: center;">
+                    <button id="btn-sync" class="btn btn-ghost btn-sm" style="margin-right: 8px;" title="Actualiser les données en ligne">🔄 Actualiser</button>
+                    <button id="btn-admin-lock" class="btn btn-ghost btn-sm" style="margin-right: 8px;">🔑 Admin</button>
+                    <div class="stat-chip">
+                        <span class="stat-label">Équipes</span>
+                        <span class="stat-value" id="stat-teams">0</span>
+                    </div>
+                    <div class="stat-chip">
+                        <span class="stat-label">Matchs</span>
+                        <span class="stat-value" id="stat-matches">0</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Navigation Tabs -->
+        <nav id="main-nav">
+            <button class="nav-tab active" data-tab="classement" id="nav-classement">
+                <span class="tab-icon">🏆</span>
+                <span class="tab-label">Classement</span>
+            </button>
+            <button class="nav-tab" data-tab="match" id="nav-match">
+                <span class="tab-icon">⚔️</span>
+                <span class="tab-label">Match</span>
+            </button>
+            <button class="nav-tab" data-tab="equipes" id="nav-equipes">
+                <span class="tab-icon">👥</span>
+                <span class="tab-label">Équipes</span>
+            </button>
+            <button class="nav-tab" data-tab="historique" id="nav-historique">
+                <span class="tab-icon">📜</span>
+                <span class="tab-label">Historique</span>
+            </button>
+        </nav>
+
+        <!-- ==================== TAB: CLASSEMENT ==================== -->
+        <section id="tab-classement" class="tab-content active">
+            <div class="section-header">
+                <h2>🏆 Classement de la Ligue</h2>
+                <p>Victoire = 3 pts · Défaite = 1 pt · Bonus meilleur combattant = +1 pt</p>
+            </div>
+            <div class="table-wrapper" id="ranking-wrapper">
+                <table id="ranking-table">
+                    <thead>
+                        <tr>
+                            <th class="col-rank">#</th>
+                            <th class="col-team">Équipe</th>
+                            <th class="col-stat col-pts">PTS</th>
+                            <th class="col-stat">MJ</th>
+                            <th class="col-stat col-win">V</th>
+                            <th class="col-stat col-loss">D</th>
+                            <th class="col-stat col-bonus">★</th>
+                            <th class="col-stat">KF</th>
+                            <th class="col-stat">KE</th>
+                            <th class="col-stat col-ga">GA</th>
+                            <th class="col-stat">SG</th>
+                            <th class="col-stat">SP</th>
+                            <th class="col-stat col-diff">±S</th>
+                            <th class="col-stat">CG</th>
+                            <th class="col-stat">CP</th>
+                            <th class="col-stat col-diff">±C</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ranking-body"></tbody>
+                </table>
+            </div>
+            <div id="ranking-empty" class="empty-state">
+                <div class="empty-icon">🏟️</div>
+                <p>Aucune équipe enregistrée</p>
+                <p class="empty-hint">Ajoutez des équipes dans l'onglet « Équipes » pour commencer !</p>
+            </div>
+            <div class="legend-box" id="legend-box">
+                <h4>Légende</h4>
+                <div class="legend-grid">
+                    <span><strong>PTS</strong> Points</span>
+                    <span><strong>MJ</strong> Matchs joués</span>
+                    <span><strong>V</strong> Victoires</span>
+                    <span><strong>D</strong> Défaites</span>
+                    <span><strong>★</strong> Bonus meilleur combattant</span>
+                    <span><strong>KF</strong> Kills effectués</span>
+                    <span><strong>KE</strong> Kills encaissés</span>
+                    <span><strong>GA</strong> Goal Average (KF − KE)</span>
+                    <span><strong>SG</strong> Sets gagnés</span>
+                    <span><strong>SP</strong> Sets perdus</span>
+                    <span><strong>±S</strong> Différence sets</span>
+                    <span><strong>CG</strong> Combats gagnés</span>
+                    <span><strong>CP</strong> Combats perdus</span>
+                    <span><strong>±C</strong> Différence combats</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== TAB: MATCH ==================== -->
+        <section id="tab-match" class="tab-content">
+            <div class="section-header">
+                <h2>⚔️ Enregistrer un Match</h2>
+                <p>Sélectionnez les équipes, jouez les sets et désignez le meilleur combattant</p>
+            </div>
+
+            <div class="match-form" id="match-form">
+                <!-- Step 1: Team Selection -->
+                <div id="match-step-1" class="match-step">
+                    <div class="team-select-row">
+                        <div class="team-select-card team-a-card">
+                            <label for="select-team-a">Équipe A</label>
+                            <select id="select-team-a"><option value="">— Choisir —</option></select>
+                            <div class="team-members" id="members-a"></div>
+                        </div>
+                        <div class="vs-badge">VS</div>
+                        <div class="team-select-card team-b-card">
+                            <label for="select-team-b">Équipe B</label>
+                            <select id="select-team-b"><option value="">— Choisir —</option></select>
+                            <div class="team-members" id="members-b"></div>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button id="btn-start-match" class="btn btn-primary btn-lg" disabled>⚔️ Lancer le Match</button>
+                    </div>
+                </div>
+
+                <!-- Step 2: Sets & Combats -->
+                <div id="match-step-2" class="match-step hidden">
+                    <div class="match-scoreboard" id="match-scoreboard">
+                        <div class="scoreboard-team team-a-side">
+                            <span class="scoreboard-name" id="sb-name-a"></span>
+                            <span class="scoreboard-score" id="sb-score-a">0</span>
+                        </div>
+                        <div class="scoreboard-divider">
+                            <span>SETS</span>
+                        </div>
+                        <div class="scoreboard-team team-b-side">
+                            <span class="scoreboard-score" id="sb-score-b">0</span>
+                            <span class="scoreboard-name" id="sb-name-b"></span>
+                        </div>
+                    </div>
+
+                    <div id="sets-area"></div>
+
+                    <div class="form-actions">
+                        <button id="btn-cancel-match" class="btn btn-ghost">← Retour</button>
+                    </div>
+                </div>
+
+                <!-- Step 3: Best Fighter & Confirm -->
+                <div id="match-step-3" class="match-step hidden">
+                    <div class="match-result-card" id="match-result-card">
+                        <div class="result-winner-banner" id="result-banner"></div>
+                        <div class="result-score" id="result-score"></div>
+                        <div class="result-details" id="result-details"></div>
+                    </div>
+
+                    <div class="best-fighter-section">
+                        <h3>🌟 Meilleur Combattant du Match</h3>
+                        <p class="best-fighter-desc">Sélectionnez le joueur ayant réalisé la meilleure performance. Son équipe gagne <strong>+1 point bonus</strong>.</p>
+                        <div class="fighter-options" id="fighter-options"></div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button id="btn-save-match" class="btn btn-success btn-lg" disabled>✅ Enregistrer le Match</button>
+                        <button id="btn-back-to-sets" class="btn btn-ghost">← Modifier les sets</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== TAB: ÉQUIPES ==================== -->
+        <section id="tab-equipes" class="tab-content">
+            <div class="section-header">
+                <h2>👥 Gestion des Équipes</h2>
+                <p>Chaque équipe est composée de 2 combattants</p>
+            </div>
+
+            <div class="add-team-form">
+                <div class="add-team-grid">
+                    <div class="input-group">
+                        <label for="input-team-name">Nom de l'équipe</label>
+                        <input type="text" id="input-team-name" placeholder="Ex: Les Titans" maxlength="30">
+                    </div>
+                    <div class="input-group">
+                        <label for="input-member-1">Combattant 1</label>
+                        <input type="text" id="input-member-1" placeholder="Pseudo / Nom" maxlength="25">
+                    </div>
+                    <div class="input-group">
+                        <label for="input-member-2">Combattant 2</label>
+                        <input type="text" id="input-member-2" placeholder="Pseudo / Nom" maxlength="25">
+                    </div>
+                </div>
+                <button id="btn-add-team" class="btn btn-primary">+ Ajouter l'équipe</button>
+            </div>
+
+            <div id="teams-list" class="teams-list"></div>
+            <div id="teams-empty" class="empty-state">
+                <div class="empty-icon">👥</div>
+                <p>Aucune équipe</p>
+                <p class="empty-hint">Créez votre première équipe ci-dessus !</p>
+            </div>
+        </section>
+
+        <!-- ==================== TAB: HISTORIQUE ==================== -->
+        <section id="tab-historique" class="tab-content">
+            <div class="section-header">
+                <h2>📜 Historique des Matchs</h2>
+                <p>Résultats détaillés de tous les matchs joués</p>
+            </div>
+            <div id="history-list" class="history-list"></div>
+            <div id="history-empty" class="empty-state">
+                <div class="empty-icon">📜</div>
+                <p>Aucun match joué</p>
+                <p class="empty-hint">Enregistrez un match pour le voir ici !</p>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer id="app-footer">
+            <button id="btn-export" class="btn btn-ghost btn-sm" title="Exporter les données">📋 Exporter</button>
+            <button id="btn-import" class="btn btn-ghost btn-sm" title="Importer des données">📥 Importer</button>
+            <button id="btn-reset-all" class="btn btn-danger btn-sm" title="Supprimer toutes les données">🗑️ Tout réinitialiser</button>
+            <input type="file" id="import-file" accept=".json" style="display:none">
+        </footer>
+    </div>
+
+    <!-- SDKs Firebase Compatibles pour intégration simplifiée -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+
+    <script src="app.js"></script>
+</body>
+</html>
