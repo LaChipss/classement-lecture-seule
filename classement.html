@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arena 2v2 — Classement Public</title>
+    <meta name="description" content="Classement en direct de la ligue Arena 2v2. Consultez les scores, statistiques et historique des matchs.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+/* ============================================
+   ARENA 2v2 — CLASSEMENT PUBLIC
+   Standalone read-only viewer
+   ============================================ */
+
+/* ---------- CSS Variables ---------- */
+:root {
+    --bg-deep: #0a0b10;
+    --bg-card: rgba(17, 19, 28, 0.85);
+    --bg-card-hover: rgba(25, 28, 42, 0.9);
+    --bg-glass: rgba(255, 255, 255, 0.03);
+    --border-glass: rgba(255, 255, 255, 0.06);
+    --border-glow: rgba(139, 92, 246, 0.3);
+
+    --accent-1: #8b5cf6;
+    --accent-2: #06b6d4;
+    --accent-3: #f59e0b;
+    --accent-win: #22c55e;
+    --accent-loss: #ef4444;
+    --accent-bonus: #f59e0b;
+
+    --text-primary: #f1f5f9;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 16px;
+    --radius-xl: 20px;
+
+    --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.4);
+    --shadow-glow: 0 0 30px rgba(139, 92, 246, 0.15);
+}
+
+/* ---------- Reset ---------- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg-deep);
+    color: var(--text-primary);
+    min-height: 100vh;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- Animated Background ---------- */
+.app-bg {
+    position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none;
+}
+.bg-orb {
+    position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.12;
+}
+.bg-orb-1 {
+    width: 600px; height: 600px; background: var(--accent-1);
+    top: -200px; left: -100px; animation: orbFloat 25s ease-in-out infinite;
+}
+.bg-orb-2 {
+    width: 500px; height: 500px; background: var(--accent-2);
+    bottom: -150px; right: -100px; animation: orbFloat 30s ease-in-out infinite reverse;
+}
+.bg-orb-3 {
+    width: 400px; height: 400px; background: var(--accent-3);
+    top: 40%; left: 50%; animation: orbFloat 20s ease-in-out infinite 5s;
+}
+@keyframes orbFloat {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(40px, -30px) scale(1.05); }
+    66% { transform: translate(-30px, 20px) scale(0.95); }
+}
+
+/* ---------- App Container ---------- */
+.app-container {
+    position: relative; z-index: 1;
+    max-width: 1100px; margin: 0 auto; padding: 24px 20px 60px;
+}
+
+/* ---------- Header ---------- */
+header {
+    position: relative; padding: 28px 32px; margin-bottom: 28px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-glass);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+}
+.header-glow {
+    position: absolute; top: -2px; left: 50%; transform: translateX(-50%);
+    width: 60%; height: 3px;
+    background: linear-gradient(90deg, transparent, var(--accent-1), var(--accent-2), transparent);
+    border-radius: 2px;
+}
+.header-content {
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;
+}
+.logo-area { display: flex; align-items: center; gap: 16px; }
+.logo-icon { font-size: 2.4rem; filter: drop-shadow(0 0 12px rgba(139,92,246,0.4)); animation: pulse 3s ease-in-out infinite; }
+@keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.08); } }
+h1 { font-family: 'Outfit', sans-serif; font-size: 1.8rem; font-weight: 800; background: linear-gradient(135deg, var(--accent-1), var(--accent-2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.subtitle { font-size: 0.85rem; color: var(--text-secondary); margin-top: 2px; }
+.header-stats { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.stat-chip {
+    background: var(--bg-glass); border: 1px solid var(--border-glass); border-radius: var(--radius-md);
+    padding: 8px 16px; text-align: center; min-width: 75px;
+}
+.stat-label { display: block; font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+.stat-value { display: block; font-family: 'Outfit', sans-serif; font-size: 1.3rem; font-weight: 700; color: var(--accent-2); }
+.public-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: linear-gradient(135deg, rgba(34,197,94,0.15), rgba(6,182,212,0.15));
+    border: 1px solid rgba(34,197,94,0.3); border-radius: var(--radius-sm);
+    padding: 6px 12px; font-size: 0.75rem; color: #22c55e; font-weight: 600;
+}
+.public-badge .dot { width: 8px; height: 8px; background: #22c55e; border-radius: 50%; animation: blink 2s infinite; }
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+/* ---------- Navigation ---------- */
+nav {
+    display: flex; gap: 6px; margin-bottom: 24px;
+    background: var(--bg-card); border: 1px solid var(--border-glass); border-radius: var(--radius-lg);
+    padding: 6px; box-shadow: var(--shadow-card);
+}
+.nav-tab {
+    flex: 1; padding: 12px 16px; border: none; background: transparent; color: var(--text-muted);
+    cursor: pointer; border-radius: var(--radius-md); font-size: 0.85rem; font-weight: 500;
+    transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 8px;
+    font-family: 'Inter', sans-serif;
+}
+.nav-tab:hover { background: var(--bg-glass); color: var(--text-secondary); }
+.nav-tab.active {
+    background: linear-gradient(135deg, rgba(139,92,246,0.2), rgba(6,182,212,0.15));
+    color: var(--text-primary); font-weight: 600;
+    border: 1px solid var(--border-glow);
+    box-shadow: 0 0 20px rgba(139,92,246,0.1);
+}
+.tab-icon { font-size: 1.1rem; }
+.tab-label { white-space: nowrap; }
+
+/* ---------- Tabs ---------- */
+.tab-content { display: none; animation: fadeIn 0.35s ease; }
+.tab-content.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ---------- Section Header ---------- */
+.section-header { margin-bottom: 20px; }
+.section-header h2 { font-family: 'Outfit', sans-serif; font-size: 1.4rem; font-weight: 700; margin-bottom: 4px; }
+.section-header p { color: var(--text-secondary); font-size: 0.85rem; }
+
+/* ---------- Ranking Table ---------- */
+.table-wrapper {
+    background: var(--bg-card); border: 1px solid var(--border-glass); border-radius: var(--radius-lg);
+    overflow-x: auto; box-shadow: var(--shadow-card);
+}
+table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+thead { background: rgba(139,92,246,0.08); }
+th {
+    padding: 14px 10px; text-align: center; font-weight: 600; color: var(--text-secondary);
+    font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px;
+    border-bottom: 1px solid var(--border-glass); white-space: nowrap;
+}
+th.col-team { text-align: left; }
+td {
+    padding: 12px 10px; text-align: center; border-bottom: 1px solid var(--border-glass);
+    color: var(--text-secondary); white-space: nowrap;
+}
+td.col-team { text-align: left; }
+tr { transition: background 0.2s ease; }
+tr:hover { background: var(--bg-card-hover); }
+tr:last-child td { border-bottom: none; }
+
+.rank-badge {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 30px; height: 30px; border-radius: 50%; font-weight: 700; font-size: 0.8rem;
+    background: var(--bg-glass); border: 1px solid var(--border-glass);
+}
+.rank-1 { background: linear-gradient(135deg, #fbbf24, #f59e0b); color: #1a1a2e; border: none; box-shadow: 0 0 12px rgba(245,158,11,0.4); }
+.rank-2 { background: linear-gradient(135deg, #94a3b8, #cbd5e1); color: #1a1a2e; border: none; box-shadow: 0 0 10px rgba(148,163,184,0.3); }
+.rank-3 { background: linear-gradient(135deg, #d97706, #b45309); color: #fff; border: none; box-shadow: 0 0 10px rgba(217,119,6,0.3); }
+
+.team-cell { display: flex; flex-direction: column; gap: 2px; }
+.team-cell-name { font-weight: 600; color: var(--text-primary); font-size: 0.9rem; }
+.team-cell-members { font-size: 0.75rem; color: var(--text-muted); }
+
+.val-pts { font-weight: 800; color: var(--accent-1); font-size: 1rem; }
+.val-win { color: var(--accent-win); font-weight: 600; }
+.val-loss { color: var(--accent-loss); font-weight: 600; }
+.val-bonus { color: var(--accent-bonus); font-weight: 600; }
+.val-ga { font-weight: 700; }
+.val-diff-pos { color: var(--accent-win); }
+.val-diff-neg { color: var(--accent-loss); }
+.val-diff-zero { color: var(--text-muted); }
+
+/* ---------- Legend ---------- */
+.legend-box {
+    margin-top: 16px; padding: 16px 20px;
+    background: var(--bg-card); border: 1px solid var(--border-glass); border-radius: var(--radius-md);
+}
+.legend-box h4 { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 10px; letter-spacing: 0.5px; }
+.legend-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 6px 20px; font-size: 0.78rem; color: var(--text-secondary);
+}
+.legend-grid strong { color: var(--text-primary); margin-right: 4px; }
+
+/* ---------- Empty State ---------- */
+.empty-state {
+    text-align: center; padding: 60px 20px; color: var(--text-muted);
+}
+.empty-icon { font-size: 3rem; margin-bottom: 16px; opacity: 0.5; }
+.empty-state p { margin-bottom: 8px; }
+.empty-hint { font-size: 0.85rem; color: var(--text-muted); opacity: 0.7; }
+
+.hidden { display: none !important; }
+
+/* ---------- History Cards ---------- */
+.history-list { display: flex; flex-direction: column; gap: 12px; }
+.history-card {
+    background: var(--bg-card); border: 1px solid var(--border-glass); border-radius: var(--radius-lg);
+    overflow: hidden; transition: all 0.3s ease; box-shadow: var(--shadow-card);
+}
+.history-card:hover { border-color: var(--border-glow); }
+.history-card-header {
+    display: flex; align-items: center; justify-content: space-between; padding: 16px 20px;
+    cursor: pointer; flex-wrap: wrap; gap: 12px;
+    transition: background 0.2s ease;
+}
+.history-card-header:hover { background: var(--bg-card-hover); }
+.history-match-teams { display: flex; align-items: center; gap: 12px; }
+.history-team-name { font-weight: 600; font-size: 0.95rem; color: var(--text-secondary); }
+.history-team-name.is-winner { color: var(--accent-win); }
+.history-match-score {
+    font-family: 'Outfit', sans-serif; font-size: 1.2rem; font-weight: 800;
+    background: var(--bg-glass); border: 1px solid var(--border-glass);
+    padding: 4px 14px; border-radius: var(--radius-sm);
+    color: var(--text-primary);
+}
+.history-meta { display: flex; align-items: center; gap: 12px; font-size: 0.8rem; color: var(--text-muted); flex-wrap: wrap; }
+.history-card-body {
+    max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.4s ease;
+    padding: 0 20px; border-top: 0px solid transparent;
+}
+.history-card-body.open {
+    max-height: 600px; padding: 16px 20px; border-top: 1px solid var(--border-glass);
+}
+.history-set-row {
+    display: flex; align-items: center; gap: 10px; padding: 8px 0;
+    border-bottom: 1px solid var(--border-glass); flex-wrap: wrap;
+}
+.history-set-row:last-of-type { border-bottom: none; }
+.history-set-label { font-weight: 600; font-size: 0.82rem; color: var(--accent-2); min-width: 50px; }
+.history-combat {
+    font-size: 0.78rem; background: var(--bg-glass); border: 1px solid var(--border-glass);
+    padding: 3px 8px; border-radius: var(--radius-sm); color: var(--text-secondary);
+}
+.kills-info { color: var(--text-muted); font-size: 0.72rem; }
+.history-bonus {
+    margin-top: 10px; padding: 8px 12px;
+    background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.2);
+    border-radius: var(--radius-sm); font-size: 0.82rem; color: var(--accent-bonus);
+}
+.history-points-summary {
+    margin-top: 8px; font-size: 0.82rem; color: var(--text-secondary);
+}
+
+/* ---------- Refresh Button ---------- */
+.btn {
+    border: none; cursor: pointer; font-family: 'Inter', sans-serif; font-weight: 600;
+    border-radius: var(--radius-md); transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 8px;
+}
+.btn-ghost {
+    background: transparent; color: var(--text-secondary); border: 1px solid var(--border-glass);
+    padding: 8px 16px; font-size: 0.82rem;
+}
+.btn-ghost:hover { background: var(--bg-glass); color: var(--text-primary); border-color: var(--border-glow); }
+.btn-sm { padding: 6px 12px; font-size: 0.78rem; }
+
+/* ---------- Auto-refresh indicator ---------- */
+.refresh-bar {
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    margin-bottom: 20px; padding: 10px 16px;
+    background: rgba(139,92,246,0.06); border: 1px solid rgba(139,92,246,0.15);
+    border-radius: var(--radius-md); font-size: 0.8rem; color: var(--text-secondary);
+}
+.refresh-bar .spinner {
+    width: 14px; height: 14px; border: 2px solid var(--border-glass); border-top-color: var(--accent-1);
+    border-radius: 50%; animation: spin 0.8s linear infinite; display: none;
+}
+.refresh-bar.loading .spinner { display: block; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ---------- Toast ---------- */
+.toast-container { position: fixed; top: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 8px; }
+.toast {
+    padding: 12px 20px; border-radius: var(--radius-md); font-size: 0.85rem; font-weight: 500;
+    animation: toastIn 0.3s ease; box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+}
+.toast-success { background: linear-gradient(135deg, #166534, #14532d); color: #86efac; border: 1px solid rgba(34,197,94,0.3); }
+.toast-error { background: linear-gradient(135deg, #7f1d1d, #991b1b); color: #fca5a5; border: 1px solid rgba(239,68,68,0.3); }
+.toast-info { background: linear-gradient(135deg, #1e3a5f, #1e40af); color: #93c5fd; border: 1px solid rgba(59,130,246,0.3); }
+@keyframes toastIn { from { opacity: 0; transform: translateX(40px); } to { opacity: 1; transform: translateX(0); } }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 768px) {
+    .app-container { padding: 12px 10px 40px; }
+    header { padding: 18px 16px; }
+    h1 { font-size: 1.3rem; }
+    .header-content { flex-direction: column; align-items: flex-start; }
+    .header-stats { width: 100%; justify-content: space-between; }
+    nav { overflow-x: auto; }
+    .nav-tab { padding: 10px 12px; font-size: 0.78rem; min-width: 0; }
+    .tab-label { display: none; }
+    .tab-icon { font-size: 1.3rem; }
+    table { font-size: 0.75rem; }
+    th, td { padding: 8px 6px; }
+    .rank-badge { width: 24px; height: 24px; font-size: 0.7rem; }
+    .team-cell-name { font-size: 0.8rem; }
+    .team-cell-members { font-size: 0.68rem; }
+    .legend-grid { grid-template-columns: 1fr; }
+}
+    </style>
+</head>
+<body>
+    <!-- Animated background -->
+    <div class="app-bg">
+        <div class="bg-orb bg-orb-1"></div>
+        <div class="bg-orb bg-orb-2"></div>
+        <div class="bg-orb bg-orb-3"></div>
+    </div>
+
+    <div class="app-container">
+        <!-- Header -->
+        <header>
+            <div class="header-glow"></div>
+            <div class="header-content">
+                <div class="logo-area">
+                    <div class="logo-icon">⚔️</div>
+                    <div>
+                        <h1>Arena 2v2</h1>
+                        <p class="subtitle">Ligue — Classement Public</p>
+                    </div>
+                </div>
+                <div class="header-stats">
+                    <div class="public-badge">
+                        <span class="dot"></span>
+                        Lecture seule
+                    </div>
+                    <button id="btn-refresh" class="btn btn-ghost btn-sm">🔄 Actualiser</button>
+                    <div class="stat-chip">
+                        <span class="stat-label">Équipes</span>
+                        <span class="stat-value" id="stat-teams">0</span>
+                    </div>
+                    <div class="stat-chip">
+                        <span class="stat-label">Matchs</span>
+                        <span class="stat-value" id="stat-matches">0</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Navigation Tabs (classement + historique only) -->
+        <nav>
+            <button class="nav-tab active" data-tab="classement">
+                <span class="tab-icon">🏆</span>
+                <span class="tab-label">Classement</span>
+            </button>
+            <button class="nav-tab" data-tab="historique">
+                <span class="tab-icon">📜</span>
+                <span class="tab-label">Historique</span>
+            </button>
+        </nav>
+
+        <!-- Auto-refresh bar -->
+        <div class="refresh-bar" id="refresh-bar">
+            <div class="spinner"></div>
+            <span id="refresh-status">Chargement du classement...</span>
+        </div>
+
+        <!-- ==================== TAB: CLASSEMENT ==================== -->
+        <section id="tab-classement" class="tab-content active">
+            <div class="section-header">
+                <h2>🏆 Classement de la Ligue</h2>
+                <p>Victoire = 3 pts · Défaite = 1 pt · Bonus meilleur combattant = +1 pt</p>
+            </div>
+            <div class="table-wrapper hidden" id="ranking-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="col-rank">#</th>
+                            <th class="col-team">Équipe</th>
+                            <th class="col-stat col-pts">PTS</th>
+                            <th class="col-stat">MJ</th>
+                            <th class="col-stat col-win">V</th>
+                            <th class="col-stat col-loss">D</th>
+                            <th class="col-stat col-bonus">★</th>
+                            <th class="col-stat">KF</th>
+                            <th class="col-stat">KE</th>
+                            <th class="col-stat col-ga">GA</th>
+                            <th class="col-stat">SG</th>
+                            <th class="col-stat">SP</th>
+                            <th class="col-stat col-diff">±S</th>
+                            <th class="col-stat">CG</th>
+                            <th class="col-stat">CP</th>
+                            <th class="col-stat col-diff">±C</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ranking-body"></tbody>
+                </table>
+            </div>
+            <div id="ranking-empty" class="empty-state">
+                <div class="empty-icon">🏟️</div>
+                <p>Aucune équipe enregistrée</p>
+                <p class="empty-hint">Le classement apparaîtra ici quand l'organisateur ajoutera des équipes.</p>
+            </div>
+            <div class="legend-box hidden" id="legend-box">
+                <h4>Légende</h4>
+                <div class="legend-grid">
+                    <span><strong>PTS</strong> Points</span>
+                    <span><strong>MJ</strong> Matchs joués</span>
+                    <span><strong>V</strong> Victoires</span>
+                    <span><strong>D</strong> Défaites</span>
+                    <span><strong>★</strong> Bonus meilleur combattant</span>
+                    <span><strong>KF</strong> Kills effectués</span>
+                    <span><strong>KE</strong> Kills encaissés</span>
+                    <span><strong>GA</strong> Goal Average (KF − KE)</span>
+                    <span><strong>SG</strong> Sets gagnés</span>
+                    <span><strong>SP</strong> Sets perdus</span>
+                    <span><strong>±S</strong> Différence sets</span>
+                    <span><strong>CG</strong> Combats gagnés</span>
+                    <span><strong>CP</strong> Combats perdus</span>
+                    <span><strong>±C</strong> Différence combats</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== TAB: HISTORIQUE ==================== -->
+        <section id="tab-historique" class="tab-content">
+            <div class="section-header">
+                <h2>📜 Historique des Matchs</h2>
+                <p>Résultats détaillés de tous les matchs joués</p>
+            </div>
+            <div id="history-list" class="history-list"></div>
+            <div id="history-empty" class="empty-state">
+                <div class="empty-icon">📜</div>
+                <p>Aucun match joué</p>
+                <p class="empty-hint">Les résultats des matchs apparaîtront ici.</p>
+            </div>
+        </section>
+    </div>
+
+    <script>
+// ==================== CONFIGURATION ====================
+// URL de votre Google Apps Script (même URL que dans app.js)
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxzKTdGeoKAMCtMQm_SRiDXneMun58ptq8RozvLlLrK44WElWt9a6T-TM-ZKQYhgtmV/exec";
+
+// Rafraîchissement automatique toutes les 30 secondes
+const AUTO_REFRESH_SECONDS = 30;
+
+let state = { teams: [], matches: [] };
+let refreshTimer = null;
+
+// ==================== DATA LOADING ====================
+function loadData(quiet = false) {
+    const bar = document.getElementById('refresh-bar');
+    const status = document.getElementById('refresh-status');
+
+    if (!quiet) {
+        bar.classList.add('loading');
+        status.textContent = 'Actualisation en cours...';
+    }
+
+    fetch(GOOGLE_SCRIPT_URL, { redirect: 'follow' })
+        .then(res => res.json())
+        .then(data => {
+            if (data) {
+                state.teams = data.teams || [];
+                state.matches = data.matches || [];
+                renderAll();
+                const now = new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+                status.textContent = `Dernière mise à jour : ${now} — Actualisation auto toutes les ${AUTO_REFRESH_SECONDS}s`;
+                if (!quiet) showToast('Classement actualisé !', 'success');
+            }
+            bar.classList.remove('loading');
+        })
+        .catch(err => {
+            console.error('Erreur de chargement :', err);
+            status.textContent = 'Erreur de chargement. Nouvelle tentative bientôt...';
+            bar.classList.remove('loading');
+            if (!quiet) showToast('Erreur de chargement des données', 'error');
+        });
+}
+
+function startAutoRefresh() {
+    if (refreshTimer) clearInterval(refreshTimer);
+    refreshTimer = setInterval(() => loadData(true), AUTO_REFRESH_SECONDS * 1000);
+}
+
+// ==================== UTILITIES ====================
+function escHtml(str) {
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+}
+
+function getTeam(id) { return state.teams.find(t => t.id === id); }
+
+function diffClass(val) {
+    if (val > 0) return 'val-diff-pos';
+    if (val < 0) return 'val-diff-neg';
+    return 'val-diff-zero';
+}
+
+function diffStr(val) { return val > 0 ? `+${val}` : `${val}`; }
+
+function formatDate(dateStr) {
+    const d = new Date(dateStr);
+    return d.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+}
+
+function showToast(message, type = 'success') {
+    let container = document.querySelector('.toast-container');
+    if (!container) {
+        container = document.createElement('div');
+        container.className = 'toast-container';
+        document.body.appendChild(container);
+    }
+    const toast = document.createElement('div');
+    toast.className = `toast toast-${type}`;
+    toast.textContent = message;
+    container.appendChild(toast);
+    setTimeout(() => toast.remove(), 3000);
+}
+
+// ==================== NAVIGATION ====================
+function initNav() {
+    document.querySelectorAll('.nav-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            tab.classList.add('active');
+            document.getElementById(`tab-${tab.dataset.tab}`).classList.add('active');
+        });
+    });
+}
+
+// ==================== COMPUTE STATS ====================
+function computeStats() {
+    const stats = {};
+    state.teams.forEach(t => {
+        stats[t.id] = {
+            points: 0, matchesPlayed: 0, wins: 0, losses: 0, bonusPoints: 0,
+            setsWon: 0, setsLost: 0, combatsWon: 0, combatsLost: 0,
+            killsFor: 0, killsAgainst: 0
+        };
+    });
+
+    state.matches.forEach(match => {
+        const sA = stats[match.teamAId];
+        const sB = stats[match.teamBId];
+        if (!sA || !sB) return;
+
+        sA.matchesPlayed++;
+        sB.matchesPlayed++;
+
+        if (match.winner === 'a') {
+            sA.wins++; sA.points += 3;
+            sB.losses++; sB.points += 1;
+        } else {
+            sB.wins++; sB.points += 3;
+            sA.losses++; sA.points += 1;
+        }
+
+        if (match.bestFighter) {
+            const bonusTeamStats = stats[match.bestFighter.teamId];
+            if (bonusTeamStats) {
+                bonusTeamStats.bonusPoints++;
+                bonusTeamStats.points++;
+            }
+        }
+
+        sA.setsWon += match.setsWonA;
+        sA.setsLost += match.setsWonB;
+        sB.setsWon += match.setsWonB;
+        sB.setsLost += match.setsWonA;
+
+        match.sets.forEach(set => {
+            set.combats.forEach(combat => {
+                if (combat.winner === 'a') { sA.combatsWon++; sB.combatsLost++; }
+                else if (combat.winner === 'b') { sB.combatsWon++; sA.combatsLost++; }
+                sA.killsFor += (combat.killsA || 0);
+                sA.killsAgainst += (combat.killsB || 0);
+                sB.killsFor += (combat.killsB || 0);
+                sB.killsAgainst += (combat.killsA || 0);
+            });
+        });
+    });
+    return stats;
+}
+
+// ==================== RENDER: RANKING ====================
+function renderRanking() {
+    const stats = computeStats();
+    const tbody = document.getElementById('ranking-body');
+    const emptyEl = document.getElementById('ranking-empty');
+    const wrapperEl = document.getElementById('ranking-wrapper');
+    const legendEl = document.getElementById('legend-box');
+
+    if (state.teams.length === 0) {
+        wrapperEl.classList.add('hidden');
+        legendEl.classList.add('hidden');
+        emptyEl.classList.remove('hidden');
+        return;
+    }
+
+    wrapperEl.classList.remove('hidden');
+    legendEl.classList.remove('hidden');
+    emptyEl.classList.add('hidden');
+
+    const sorted = [...state.teams].sort((a, b) => {
+        const sa = stats[a.id], sb = stats[b.id];
+        if (sb.points !== sa.points) return sb.points - sa.points;
+        const gaA = sa.killsFor - sa.killsAgainst;
+        const gaB = sb.killsFor - sb.killsAgainst;
+        if (gaB !== gaA) return gaB - gaA;
+        const sdA = sa.setsWon - sa.setsLost;
+        const sdB = sb.setsWon - sb.setsLost;
+        if (sdB !== sdA) return sdB - sdA;
+        const cdA = sa.combatsWon - sa.combatsLost;
+        const cdB = sb.combatsWon - sb.combatsLost;
+        return cdB - cdA;
+    });
+
+    tbody.innerHTML = sorted.map((team, i) => {
+        const s = stats[team.id];
+        const rank = i + 1;
+        const setDiff = s.setsWon - s.setsLost;
+        const combatDiff = s.combatsWon - s.combatsLost;
+        const ga = s.killsFor - s.killsAgainst;
+
+        let rankClass = 'rank-default';
+        if (rank === 1) rankClass = 'rank-1';
+        else if (rank === 2) rankClass = 'rank-2';
+        else if (rank === 3) rankClass = 'rank-3';
+
+        return `<tr>
+            <td><span class="rank-badge ${rankClass}">${rank}</span></td>
+            <td class="col-team">
+                <div class="team-cell">
+                    <span class="team-cell-name">${escHtml(team.name)}</span>
+                    <span class="team-cell-members">${escHtml(team.member1)} · ${escHtml(team.member2)}</span>
+                </div>
+            </td>
+            <td><span class="val-pts">${s.points}</span></td>
+            <td>${s.matchesPlayed}</td>
+            <td><span class="val-win">${s.wins}</span></td>
+            <td><span class="val-loss">${s.losses}</span></td>
+            <td><span class="val-bonus">${s.bonusPoints}</span></td>
+            <td>${s.killsFor}</td>
+            <td>${s.killsAgainst}</td>
+            <td><span class="val-ga ${diffClass(ga)}">${diffStr(ga)}</span></td>
+            <td>${s.setsWon}</td>
+            <td>${s.setsLost}</td>
+            <td><span class="${diffClass(setDiff)}">${diffStr(setDiff)}</span></td>
+            <td>${s.combatsWon}</td>
+            <td>${s.combatsLost}</td>
+            <td><span class="${diffClass(combatDiff)}">${diffStr(combatDiff)}</span></td>
+        </tr>`;
+    }).join('');
+
+    document.getElementById('stat-teams').textContent = state.teams.length;
+    document.getElementById('stat-matches').textContent = state.matches.length;
+}
+
+// ==================== RENDER: HISTORY ====================
+function renderHistory() {
+    const listEl = document.getElementById('history-list');
+    const emptyEl = document.getElementById('history-empty');
+
+    if (state.matches.length === 0) {
+        listEl.innerHTML = '';
+        emptyEl.classList.remove('hidden');
+        return;
+    }
+
+    emptyEl.classList.add('hidden');
+    const sorted = [...state.matches].reverse();
+
+    listEl.innerHTML = sorted.map(match => {
+        const teamA = getTeam(match.teamAId);
+        const teamB = getTeam(match.teamBId);
+        if (!teamA || !teamB) return '';
+
+        const nameA = teamA.name;
+        const nameB = teamB.name;
+
+        const ptsA = (match.winner === 'a' ? 3 : 1) + (match.bestFighter && match.bestFighter.teamId === match.teamAId ? 1 : 0);
+        const ptsB = (match.winner === 'b' ? 3 : 1) + (match.bestFighter && match.bestFighter.teamId === match.teamBId ? 1 : 0);
+
+        const setsHtml = match.sets.map((set, si) => {
+            const combatsHtml = set.combats.map((c, ci) => {
+                const winLabel = c.winner === 'a' ? nameA : nameB;
+                return `<span class="history-combat">${escHtml(winLabel)} <span class="kills-info">(${c.killsA}-${c.killsB})</span></span>`;
+            }).join(' ');
+            const setWinnerName = set.winner === 'a' ? nameA : nameB;
+            return `<div class="history-set-row">
+                <span class="history-set-label">Set ${si + 1}</span>
+                <span style="color:var(--text-secondary);font-size:0.8rem;margin-right:8px;">→ ${escHtml(setWinnerName)}</span>
+                ${combatsHtml}
+            </div>`;
+        }).join('');
+
+        const bestFighterTeamName = match.bestFighter ? (getTeam(match.bestFighter.teamId)?.name || '?') : '?';
+
+        return `<div class="history-card" data-id="${match.id}">
+            <div class="history-card-header" onclick="toggleHistoryCard('${match.id}')">
+                <div class="history-match-teams">
+                    <span class="history-team-name ${match.winner === 'a' ? 'is-winner' : ''}">${escHtml(nameA)}</span>
+                    <span class="history-match-score">${match.setsWonA} - ${match.setsWonB}</span>
+                    <span class="history-team-name ${match.winner === 'b' ? 'is-winner' : ''}">${escHtml(nameB)}</span>
+                </div>
+                <div class="history-meta">
+                    <span>🏅 ${ptsA} pts - ${ptsB} pts</span>
+                    <span>📅 ${formatDate(match.date)}</span>
+                </div>
+            </div>
+            <div class="history-card-body" id="hbody-${match.id}">
+                ${setsHtml}
+                <div class="history-bonus">🌟 Meilleur combattant : ${match.bestFighter ? escHtml(match.bestFighter.name) : '—'} (${escHtml(bestFighterTeamName)}) → +1 pt</div>
+                <div class="history-points-summary">
+                    Kills : <strong>${escHtml(nameA)}</strong> ${match.totalKillsA} — <strong>${escHtml(nameB)}</strong> ${match.totalKillsB}
+                </div>
+            </div>
+        </div>`;
+    }).join('');
+}
+
+function toggleHistoryCard(matchId) {
+    const body = document.getElementById(`hbody-${matchId}`);
+    if (body) body.classList.toggle('open');
+}
+
+// ==================== RENDER ALL ====================
+function renderAll() {
+    renderRanking();
+    renderHistory();
+    document.getElementById('stat-teams').textContent = state.teams.length;
+    document.getElementById('stat-matches').textContent = state.matches.length;
+}
+
+// ==================== INIT ====================
+document.addEventListener('DOMContentLoaded', () => {
+    initNav();
+    loadData(false);
+    startAutoRefresh();
+
+    document.getElementById('btn-refresh').addEventListener('click', () => loadData(false));
+});
+    </script>
+</body>
+</html>
