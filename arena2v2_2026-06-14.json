@@ -1,0 +1,699 @@
+{
+  "teams": [
+    {
+      "id": "mq0uc1v8eeqa5",
+      "name": "Equipe 9",
+      "member1": "Leodegar",
+      "member2": "Baldwin"
+    },
+    {
+      "id": "mq0x1suxh674x",
+      "name": "Les Tiches d'Embrun",
+      "member1": "Foulques",
+      "member2": "Rollon"
+    },
+    {
+      "id": "mq0x2vh2gkiwu",
+      "name": "Les Gardiens de la Taverne",
+      "member1": "Pépin",
+      "member2": "Ascaric"
+    },
+    {
+      "id": "mq0yhjbr5kan3",
+      "name": "PUteDUduC",
+      "member1": "Leodagan",
+      "member2": "Flavien"
+    },
+    {
+      "id": "mq0yj727x175f",
+      "name": "Le Roi et le clochard",
+      "member1": "Huebald",
+      "member2": "Manuhel"
+    },
+    {
+      "id": "mq14vdkkmmt10",
+      "name": "La Douche Doré",
+      "member1": "Ribald",
+      "member2": "Maeloc"
+    },
+    {
+      "id": "mq1a9zsf8jzaq",
+      "name": "The Goys",
+      "member1": "Gargamel",
+      "member2": "Alphonse"
+    },
+    {
+      "id": "mq1ht668qbyk2",
+      "name": "Only Graal",
+      "member1": "Prithard",
+      "member2": "Helie"
+    },
+    {
+      "id": "mq27atzpnkcl2",
+      "name": "Make Gasconnie Great Again",
+      "member1": "Godefroid",
+      "member2": "Hugh"
+    },
+    {
+      "id": "mq2i546o6wwj4",
+      "name": "Le Bavoir et la Miette",
+      "member1": "Godebald",
+      "member2": "Gaston"
+    },
+    {
+      "id": "mq2oycuswrwo1",
+      "name": "Les Fûts Furieux",
+      "member1": "Rolland Bouteille",
+      "member2": "Gillebert"
+    },
+    {
+      "id": "mq44bybl0zmrh",
+      "name": "Théomer Fan Club Esport",
+      "member1": "Cadoc",
+      "member2": "Baudoin"
+    },
+    {
+      "id": "mq46evsb9sbay",
+      "name": "Les Poulets de Guerre",
+      "member1": "Théomer",
+      "member2": "Anquetin"
+    },
+    {
+      "id": "mq48rdnzbe4wm",
+      "name": "Les Poulets Braissés",
+      "member1": "Raimbald",
+      "member2": "Erouan"
+    },
+    {
+      "id": "mq5f3emq0cbeo",
+      "name": "BarnaBaliste",
+      "member1": "Jehan Baliste",
+      "member2": "Barnabé"
+    },
+    {
+      "id": "mq5hmwq64td7o",
+      "name": "Equipe 20",
+      "member1": "Guinol",
+      "member2": "Ulric"
+    },
+    {
+      "id": "mq6l1p34m2du7",
+      "name": "Les Grognards",
+      "member1": "Theudis",
+      "member2": "Henry"
+    },
+    {
+      "id": "mq6l2v2mo9si1",
+      "name": "Les Dentistes",
+      "member1": "Chicot",
+      "member2": "Jonas"
+    },
+    {
+      "id": "mq8gxm97b9138",
+      "name": "Equipe 21",
+      "member1": "Aznar",
+      "member2": "Mirk"
+    },
+    {
+      "id": "mq9iq3r9j2z44",
+      "name": "GraalHub",
+      "member1": "Gudule",
+      "member2": "Alexis"
+    }
+  ],
+  "matches": [
+    {
+      "id": "mq8hi4rjshoug",
+      "date": "2026-06-10T19:51:19.711Z",
+      "teamAId": "mq0x2vh2gkiwu",
+      "teamBId": "mq44bybl0zmrh",
+      "sets": [
+        {
+          "combats": [
+            {
+              "killsA": 2,
+              "killsB": 0,
+              "winner": "a"
+            },
+            {
+              "killsA": 2,
+              "killsB": 0,
+              "winner": "a"
+            },
+            {
+              "killsA": 0,
+              "killsB": 0,
+              "winner": "a"
+            }
+          ],
+          "winner": "a"
+        },
+        {
+          "combats": [
+            {
+              "killsA": 0,
+              "killsB": 2,
+              "winner": "b"
+            },
+            {
+              "killsA": 0,
+              "killsB": 2,
+              "winner": "b"
+            },
+            {
+              "killsA": 0,
+              "killsB": 0,
+              "winner": "b"
+            }
+          ],
+          "winner": "b"
+        },
+        {
+          "combats": [
+            {
+              "killsA": 2,
+              "killsB": 0,
+              "winner": "a"
+            },
+            {
+              "killsA": 2,
+              "killsB": 0,
+              "winner": "a"
+            },
+            {
+              "killsA": 0,
+              "killsB": 0,
+              "winner": "a"
+            }
+          ],
+          "winner": "a"
+        }
+      ],
+      "setsWonA": 2,
+      "setsWonB": 1,
+      "winner": "a",
+      "bestFighter": {
+        "name": "Pépin",
+        "teamId": "mq0x2vh2gkiwu"
+      },
+      "totalKillsA": 8,
+      "totalKillsB": 4
+    },
+    {
+      "id": "mq8hr1q2r2wfg",
+      "date": "2026-06-10T19:58:15.674Z",
+      "teamAId": "mq0x2vh2gkiwu",
+      "teamBId": "mq1ht668qbyk2",
+      "sets": [
+        {
+          "combats": [
+            {
+              "killsA": 2,
+              "killsB": 0,
+              "winner": "a"
+            },
+            {
+              "killsA": 0,
+              "killsB": 2,
+              "winner": "b"
+            },
+            {
+              "killsA": 0,
+              "killsB": 2,
+              "winner": "b"
+            }
+          ],
+          "winner": "b"
+        },
+        {
+          "combats": [
+            {
+              "killsA": 0,
+              "killsB": 2,
+              "winner": "b"
+            },
+            {
+              "killsA": 2,
+              "killsB": 0,
+              "winner": "a"
+            },
+            {
+              "killsA": 0,
+              "killsB": 2,
+              "winner": "b"
+            }
+          ],
+          "winner": "b"
+        }
+      ],
+      "setsWonA": 0,
+      "setsWonB": 2,
+      "winner": "b",
+      "bestFighter": {
+        "name": "Prithard",
+        "teamId": "mq1ht668qbyk2"
+      },
+      "totalKillsA": 4,
+      "totalKillsB": 8
+    },
+    {
+      "id": "mq8im0zr67htq",
+      "date": "2026-06-10T20:22:21.063Z",
+      "teamAId": "mq0x1suxh674x",
+      "teamBId": "mq0uc1v8eeqa5",
+      "sets": [
+        {
+          "combats": [
+            {
+              "killsA": 0,
+              "killsB": 2,
+              "winner": "b"
+            },
+            {
+              "killsA": 1,
+              "killsB": 2,
+              "winner": "b"
+            },
+            {
+              "killsA": 0,
+              "killsB": 0,
+              "winner": "b"
+            }
+          ],
+          "winner": "b"
+        },
+        {
+          "combats": [
+            {
+              "killsA": 2,
+              "killsB": 0,
+              "winner": "a"
+            },
+            {
+              "killsA": 0,
+              "killsB": 2,
+              "winner": "b"
+            },
+            {
+              "killsA": 2,
+              "killsB": 0,
+              "winner": "a"
+            }
+          ],
+          "winner": "a"
+        },
+        {
+          "combats": [
+            {
+              "killsA": 0,
+              "killsB": 2,
+              "winner": "b"
+            },
+            {
+              "killsA": 0,
+              "killsB": 2,
+              "winner": "b"
+            },
+            {
+              "killsA": 0,
+              "killsB": 0,
+              "winner": "b"
+            }
+          ],
+          "winner": "b"
+        }
+      ],
+      "setsWonA": 1,
+      "setsWonB": 2,
+      "winner": "b",
+      "bestFighter": {
+        "name": "Leodegar",
+        "teamId": "mq0uc1v8eeqa5"
+      },
+      "totalKillsA": 5,
+      "totalKillsB": 10
+    },
+    {
+      "id": "mqaxo2g92un13",
+      "date": "2026-06-12T12:59:22.857Z",
+      "teamAId": "mq1a9zsf8jzaq",
+      "teamBId": "mq0x1suxh674x",
+      "sets": [
+        {
+          "combats": [
+            {
+              "killsA": 0,
+              "killsB": 2,
+              "winner": "b"
+            },
+            {
+              "killsA": 2,
+              "killsB": 0,
+              "winner": "a"
+            },
+            {
+              "killsA": 0,
+              "killsB": 2,
+              "winner": "b"
+            }
+          ],
+          "winner": "b"
+        },
+        {
+          "combats": [
+            {
+              "killsA": 0,
+              "killsB": 2,
+              "winner": "b"
+            },
+            {
+              "killsA": 0,
+              "killsB": 2,
+              "winner": "b"
+            },
+            {
+              "killsA": 0,
+              "killsB": 0,
+              "winner": "b"
+            }
+          ],
+          "winner": "b"
+        }
+      ],
+      "setsWonA": 0,
+      "setsWonB": 2,
+      "winner": "b",
+      "bestFighter": {
+        "name": "Foulques",
+        "teamId": "mq0x1suxh674x"
+      },
+      "totalKillsA": 2,
+      "totalKillsB": 8
+    },
+    {
+      "id": "mqbc1pe5l6l22",
+      "date": "2026-06-12T19:41:53.741Z",
+      "teamAId": "mq0x1suxh674x",
+      "teamBId": "mq6l2v2mo9si1",
+      "sets": [
+        {
+          "combats": [
+            {
+              "killsA": 2,
+              "killsB": 0,
+              "winner": "a"
+            },
+            {
+              "killsA": 2,
+              "killsB": 0,
+              "winner": "a"
+            },
+            {
+              "killsA": 0,
+              "killsB": 0,
+              "winner": "a"
+            }
+          ],
+          "winner": "a"
+        },
+        {
+          "combats": [
+            {
+              "killsA": 2,
+              "killsB": 0,
+              "winner": "a"
+            },
+            {
+              "killsA": 2,
+              "killsB": 0,
+              "winner": "a"
+            },
+            {
+              "killsA": 0,
+              "killsB": 0,
+              "winner": "a"
+            }
+          ],
+          "winner": "a"
+        }
+      ],
+      "setsWonA": 2,
+      "setsWonB": 0,
+      "winner": "a",
+      "bestFighter": {
+        "name": "Foulques",
+        "teamId": "mq0x1suxh674x"
+      },
+      "totalKillsA": 8,
+      "totalKillsB": 0
+    },
+    {
+      "id": "mqbccmhnz5dlg",
+      "date": "2026-06-12T19:50:23.195Z",
+      "teamAId": "mq6l1p34m2du7",
+      "teamBId": "mq2i546o6wwj4",
+      "sets": [
+        {
+          "combats": [
+            {
+              "killsA": 2,
+              "killsB": 0,
+              "winner": "a"
+            },
+            {
+              "killsA": 0,
+              "killsB": 2,
+              "winner": "b"
+            },
+            {
+              "killsA": 2,
+              "killsB": 0,
+              "winner": "a"
+            }
+          ],
+          "winner": "a"
+        },
+        {
+          "combats": [
+            {
+              "killsA": 2,
+              "killsB": 0,
+              "winner": "a"
+            },
+            {
+              "killsA": 2,
+              "killsB": 0,
+              "winner": "a"
+            },
+            {
+              "killsA": 0,
+              "killsB": 0,
+              "winner": "a"
+            }
+          ],
+          "winner": "a"
+        }
+      ],
+      "setsWonA": 2,
+      "setsWonB": 0,
+      "winner": "a",
+      "bestFighter": {
+        "name": "Theudis",
+        "teamId": "mq6l1p34m2du7"
+      },
+      "totalKillsA": 8,
+      "totalKillsB": 2
+    },
+    {
+      "id": "mqbcsavshfs67",
+      "date": "2026-06-12T20:02:34.648Z",
+      "teamAId": "mq2i546o6wwj4",
+      "teamBId": "mq0x1suxh674x",
+      "sets": [
+        {
+          "combats": [
+            {
+              "killsA": 0,
+              "killsB": 2,
+              "winner": "b"
+            },
+            {
+              "killsA": 0,
+              "killsB": 2,
+              "winner": "b"
+            },
+            {
+              "killsA": 0,
+              "killsB": 0,
+              "winner": "b"
+            }
+          ],
+          "winner": "b"
+        },
+        {
+          "combats": [
+            {
+              "killsA": 0,
+              "killsB": 2,
+              "winner": "b"
+            },
+            {
+              "killsA": 0,
+              "killsB": 2,
+              "winner": "b"
+            },
+            {
+              "killsA": 0,
+              "killsB": 0,
+              "winner": "b"
+            }
+          ],
+          "winner": "b"
+        }
+      ],
+      "setsWonA": 0,
+      "setsWonB": 2,
+      "winner": "b",
+      "bestFighter": {
+        "name": "Foulques",
+        "teamId": "mq0x1suxh674x"
+      },
+      "totalKillsA": 0,
+      "totalKillsB": 8
+    },
+    {
+      "id": "mqbcxdz6c57ke",
+      "date": "2026-06-12T20:06:31.938Z",
+      "teamAId": "mq6l1p34m2du7",
+      "teamBId": "mq6l2v2mo9si1",
+      "sets": [
+        {
+          "combats": [
+            {
+              "killsA": 2,
+              "killsB": 0,
+              "winner": "a"
+            },
+            {
+              "killsA": 2,
+              "killsB": 0,
+              "winner": "a"
+            },
+            {
+              "killsA": 0,
+              "killsB": 0,
+              "winner": "a"
+            }
+          ],
+          "winner": "a"
+        },
+        {
+          "combats": [
+            {
+              "killsA": 2,
+              "killsB": 0,
+              "winner": "a"
+            },
+            {
+              "killsA": 1,
+              "killsB": 2,
+              "winner": "b"
+            },
+            {
+              "killsA": 2,
+              "killsB": 0,
+              "winner": "a"
+            }
+          ],
+          "winner": "a"
+        }
+      ],
+      "setsWonA": 2,
+      "setsWonB": 0,
+      "winner": "a",
+      "bestFighter": {
+        "name": "Henry",
+        "teamId": "mq6l1p34m2du7"
+      },
+      "totalKillsA": 9,
+      "totalKillsB": 2
+    },
+    {
+      "id": "mqbdchchym1zy",
+      "date": "2026-06-12T20:18:16.145Z",
+      "teamAId": "mq6l2v2mo9si1",
+      "teamBId": "mq2i546o6wwj4",
+      "sets": [
+        {
+          "combats": [
+            {
+              "killsA": 0,
+              "killsB": 2,
+              "winner": "b"
+            },
+            {
+              "killsA": 0,
+              "killsB": 2,
+              "winner": "b"
+            },
+            {
+              "killsA": 0,
+              "killsB": 0,
+              "winner": "b"
+            }
+          ],
+          "winner": "b"
+        },
+        {
+          "combats": [
+            {
+              "killsA": 2,
+              "killsB": 0,
+              "winner": "a"
+            },
+            {
+              "killsA": 2,
+              "killsB": 0,
+              "winner": "a"
+            },
+            {
+              "killsA": 0,
+              "killsB": 0,
+              "winner": "a"
+            }
+          ],
+          "winner": "a"
+        },
+        {
+          "combats": [
+            {
+              "killsA": 0,
+              "killsB": 2,
+              "winner": "b"
+            },
+            {
+              "killsA": 0,
+              "killsB": 2,
+              "winner": "b"
+            },
+            {
+              "killsA": 0,
+              "killsB": 0,
+              "winner": "b"
+            }
+          ],
+          "winner": "b"
+        }
+      ],
+      "setsWonA": 1,
+      "setsWonB": 2,
+      "winner": "b",
+      "bestFighter": {
+        "name": "Godebald",
+        "teamId": "mq2i546o6wwj4"
+      },
+      "totalKillsA": 4,
+      "totalKillsB": 8
+    }
+  ]
+}
