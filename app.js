@@ -4,7 +4,7 @@
 
 // --- MÉTHODE A : Google Apps Script (100% GRATUIT, SANS CARTE BANCAIRE) ---
 // Renseignez l'URL de votre Web App Google Apps Script ici :
-const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxzKTdGeoKAMCtMQm_SRiDXneMun58ptq8RozvLlLrK44WElWt9a6T-TM-ZKQYhgtmV/exec";
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzBPaTRcaa_ydcrC53y_nURCXTZCUIPIuoinUoss6mxgfcDqxx6pwdOp7dZ-2YmAz_rag/exec";
 
 // --- MÉTHODE B : Firebase Realtime Database (Optionnel) ---
 const firebaseConfig = {
